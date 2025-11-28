@@ -8,6 +8,9 @@ class AuthApp {
         this.btnLogout = document.getElementById('btn-logout');
         this.userEmailDisplay = document.getElementById('user-email-display');
         
+        // Corrigir caminho absoluto
+        this.API = '/Calculadora-de-CO2/src/Controller/LoginController.php';
+
         this.initListeners(); 
     }
 
@@ -26,23 +29,26 @@ class AuthApp {
         const password = document.getElementById('cadastro-senha').value;
         
         try {
-            // Usa o fetch para enviar dados para o controlador PHP
-            const response = await fetch('../src/Controller/LoginController.php', {
+            const response = await fetch(this.API, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password, action: 'register' }), // Envia a ação para o PHP
+                credentials: 'include',
+                body: JSON.stringify({ email, password, action: 'register' }),
             });
 
-            const result = await response.json();
+            const responseText = await response.text();
+            console.log('Resposta bruta:', responseText);
+            
+            const result = JSON.parse(responseText);
 
             if (result.success) {
-                alert(result.message);
-                this.switchScreen(this.loginScreen);
-                this.cadastroForm.reset();
+                alert('Cadastro realizado!');
+                // Redirecionar para home.php
+                window.location.href = '/Calculadora-de-CO2/view/home.php';
             } else {
-                throw new Error(result.message);
+                alert(`Erro: ${result.message}`);
             }
 
         } catch (error) {
@@ -58,11 +64,12 @@ class AuthApp {
 
         try {
             // Usa o fetch para enviar dados para o controlador PHP
-            const response = await fetch('../src/Controller/LoginController.php', {
+            const response = await fetch(this.API, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                credentials: 'include', // necessário para sessão funcionar
                 body: JSON.stringify({ email, password, action: 'login' }), // Envia a ação para o PHP
             });
 
@@ -85,9 +92,11 @@ class AuthApp {
     // O logout agora também usa fetch para limpar a sessão PHP
     async handleLogout() {
         try {
-            const response = await fetch('../src/Controller/LoginController.php', {
+            const response = await fetch(this.API, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
+
+                credentials: 'include', // necessário para encerrar a sessão no servidor
                 body: JSON.stringify({ action: 'logout' }),
             });
             

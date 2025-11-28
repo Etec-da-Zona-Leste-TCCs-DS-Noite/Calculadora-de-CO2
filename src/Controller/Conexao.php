@@ -1,20 +1,37 @@
 <?php
-class Database {
-    private $host = "localhost"; // Mude se necessário
-    private $db_name = "ecoCalc"; // Nome do seu BD
-    private $username = "root"; // Seu usuário do BD
-    private $password = ""; // Sua senha do BD
-    public $conn;
+
+class Conexao {
+    private $host = 'localhost';
+    private $user = 'root';
+    private $password = 'ryan140609'; // DEIXE VAZIO se não tiver senha
+    private $database = 'login';
+    private $connection;
+
+    public function __construct() {
+        try {
+            $this->connection = new mysqli(
+                $this->host,
+                $this->user,
+                $this->password,
+                $this->database
+            );
+
+            if ($this->connection->connect_error) {
+                throw new Exception("Erro na conexão: " . $this->connection->connect_error);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
 
     public function getConnection() {
-        $this->conn = null;
-        try {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            $this->conn->exec("set names utf8");
-        } catch(PDOException $exception) {
-            echo "Erro de conexão: " . $exception->getMessage();
+        return $this->connection;
+    }
+
+    public function closeConnection() {
+        if ($this->connection) {
+            $this->connection->close();
         }
-        return $this->conn;
     }
 }
 ?>

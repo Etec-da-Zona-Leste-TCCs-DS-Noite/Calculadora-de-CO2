@@ -6,9 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PWA Firebase Auth</title>
 
-    <link rel="manifest" href="/Tela de Login/manifest.json">
-    <link rel="stylesheet" href="/Tela de Login/styles.css">
-    <link rel="icon" type="image/png" href="/Tela de Login/images/favico.png">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>
@@ -16,8 +15,7 @@
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // Nota: Certifique-se de que o service-worker.js está na raiz!
-                navigator.serviceWorker.register('/Tela de Login/service-worker.js')
+                navigator.serviceWorker.register('./service-worker.js')
                     .then(reg => console.log('Service Worker registrado:', reg.scope))
                     .catch(err => console.error('Erro no Service Worker:', err));
             });
@@ -70,7 +68,7 @@
 
     </main>
 
-    <script src="/Tela de Login/app.js"></script>
+    <script src="./app.js"></script>
 
 </body>
 
