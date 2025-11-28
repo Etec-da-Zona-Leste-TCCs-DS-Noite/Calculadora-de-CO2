@@ -5,11 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="firstSTL.css">
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
+
 </head>
 
 <body>
 
-    <nav class="navbar">
+    <nav class="navbar" id="home">
         <button id="hamburger" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="sidebar">
             <span></span>
             <span></span>
@@ -22,18 +24,17 @@
     <aside id="sidebar" class="sidebar" role="navigation" aria-hidden="true">
         <nav>
             <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Minha conta</a></li>
-            <li><a href="#">Minhas Conexões</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Contatos</a></li>
+            <li><a href="#home" style="font-family:'Anton', sans-serif; font-size: larger">Home</a></li>
+            <li><a href="#" style="font-family:'Anton', sans-serif; font-size: larger">Minha conta</a></li>
+            <li><a href="#"style="font-family:'Anton', sans-serif; font-size: larger">Minhas Conexões</a></li>
+            <li><a href="#sobre1" style="font-family:'Anton', sans-serif; font-size: larger">Sobre</a></li>
+            <li><a href="#ctts" style="font-family:'Anton', sans-serif; font-size: larger">Contatos</a></li>
             </ul>
         </nav>
     </aside>
 
 
     <div id="overlay" class="overlay" aria-hidden="true"></div>
-    <div class="box01"></div>
     <div class="carousel">
 
         <div class="slides">
@@ -63,8 +64,17 @@
 
     </div>
 
+    <div class="box01"></div>
+
+    <div class="box02" id="ctts"></div>
+    <div class="texto01" id="sobre1">
+      <p  style="font-family:'Anton', sans-serif; font-size: larger; font-size: 5.5em; color:  rgb(9, 148, 9);" >SOBRE NÓS</p>
+    </div>
+
+
 
     <script src="carrossel.js"></script>
     <script src="menu.js"></script>
+
 </body>
 </html>
