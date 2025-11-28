@@ -31,3 +31,4 @@ nav.forEach((dot, i) => {
         showSlide(i);
     });
 });
+
