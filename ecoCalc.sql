@@ -1,4 +1,4 @@
-CREATE TABLE ecoCalc;
+CREATE DATABASE ecoCalc;
 USE ecoCalc;
 
 CREATE TABLE usuario (
