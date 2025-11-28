@@ -1,7 +1,7 @@
 {
-  "name": "Firebase PWA Login POO",
+  "name": "PWA Login POO",
   "short_name": "AuthApp",
-  "start_url": "/Pwa-FireBase/index.html",
+  "start_url": "/Tela de Login/index.html",
   "display": "standalone",
   "background_color": "#f4f4f9",
   "theme_color": "#007bff",

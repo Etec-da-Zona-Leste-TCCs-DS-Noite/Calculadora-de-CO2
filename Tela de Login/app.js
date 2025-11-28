@@ -1,21 +1,5 @@
 class AuthApp {
     constructor() {
-        // 1. Configuração do Firebase
-        const firebaseConfig = {
-            // Suas credenciais CORRETAS
-            apiKey: "AIzaSyBmWyuu8psIwguWgiCFZzFr9wdwsf4L6Q8",
-            authDomain: "login-poo-2af7f.firebaseapp.com",
-            projectId: "login-poo-2af7f",
-            storageBucket: "login-poo-2af7f.firebasestorage.app",
-            messagingSenderId: "872605727899",
-            appId: "1:872605727899:web:f810515e757d0db2f25a3e",
-            measurementId: "G-NE0B1LL6LY"
-        };
-        
-        firebase.initializeApp(firebaseConfig);
-        this.auth = firebase.auth();
-
-        // 2. Referências do DOM
         this.cadastroScreen = document.getElementById('cadastro-screen');
         this.loginScreen = document.getElementById('login-screen');
         this.dashboardScreen = document.getElementById('dashboard-screen');
@@ -24,14 +8,9 @@ class AuthApp {
         this.btnLogout = document.getElementById('btn-logout');
         this.userEmailDisplay = document.getElementById('user-email-display');
         
-        // 3. Inicializa os Event Listeners
-        this.initListeners();
-        
-        // 4. Inicia o Observador de Estado
-        this.observeAuthState();
+        this.initListeners(); 
     }
 
-    // Método para alternar as telas
     switchScreen(screenToShow) {
         [this.cadastroScreen, this.loginScreen, this.dashboardScreen].forEach(screen => {
             screen.classList.remove('active-screen');
@@ -41,62 +20,92 @@ class AuthApp {
         screenToShow.classList.add('active-screen');
     }
 
-    // Lógica de Cadastro (POO)
-    handleCadastro(e) {
+    async handleCadastro(e) { 
         e.preventDefault();
         const email = document.getElementById('cadastro-email').value;
-        const senha = document.getElementById('cadastro-senha').value;
+        const password = document.getElementById('cadastro-senha').value;
+        
+        try {
+            // Usa o fetch para enviar dados para o controlador PHP
+            const response = await fetch('../src/Controller/LoginController.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password, action: 'register' }), // Envia a ação para o PHP
+            });
 
-        this.auth.createUserWithEmailAndPassword(email, senha)
-            .then(() => {
-                alert('Conta criada com sucesso! Faça login.');
+            const result = await response.json();
+
+            if (result.success) {
+                alert(result.message);
                 this.switchScreen(this.loginScreen);
                 this.cadastroForm.reset();
-            })
-            .catch((error) => {
-                alert(`Erro ao cadastrar: ${error.message}`);
-            });
+            } else {
+                throw new Error(result.message);
+            }
+
+        } catch (error) {
+            console.error('Erro no cadastro:', error);
+            alert(`Erro ao cadastrar: ${error.message}`);
+        }
     }
 
-    // Lógica de Login (POO) COM MENSAGEM DE SUCESSO 🚀
-    handleLogin(e) {
+    async handleLogin(e) { 
         e.preventDefault();
         const email = document.getElementById('login-email').value;
-        const senha = document.getElementById('login-senha').value;
+        const password = document.getElementById('login-senha').value;
 
-        this.auth.signInWithEmailAndPassword(email, senha)
-            .then(() => {
-                // 🚀 FEEDBACK DE SUCESSO ANTES DO REDIRECIONAMENTO
-                alert('Login efetuado com sucesso! Bem-vindo ao Dashboard.'); 
-                this.loginForm.reset(); 
-                // O observador (onAuthStateChanged) será acionado logo após este .then()
-            })
-            .catch((error) => {
-                alert(`Erro ao fazer login: ${error.message}`);
+        try {
+            // Usa o fetch para enviar dados para o controlador PHP
+            const response = await fetch('../src/Controller/LoginController.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password, action: 'login' }), // Envia a ação para o PHP
             });
-    }
 
-    // Lógica de Logout (POO)
-    handleLogout() {
-        this.auth.signOut()
-            .catch((error) => {
-                alert(`Erro ao sair: ${error.message}`);
-            });
-    }
+            const result = await response.json();
 
-    // Observador de Estado (POO)
-    observeAuthState() {
-        this.auth.onAuthStateChanged((user) => {
-            if (user) {
-                this.userEmailDisplay.textContent = user.email;
-                this.switchScreen(this.dashboardScreen);
+            if (result.success) {
+                alert(result.message);
+                // Redireciona para a home.php usando window.location
+                window.location.href = '../src/View/home.php'; 
             } else {
-                this.switchScreen(this.loginScreen); 
+                throw new Error(result.message);
             }
-        });
+
+        } catch (error) {
+            console.error('Erro no login:', error);
+            alert(`Erro ao fazer login: ${error.message}`);
+        }
+    }
+    
+    // O logout agora também usa fetch para limpar a sessão PHP
+    async handleLogout() {
+        try {
+            const response = await fetch('../src/Controller/LoginController.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'logout' }),
+            });
+            
+            const result = await response.json();
+
+            if (result.success) {
+                // Redireciona de volta para a página de login/index
+                window.location.href = '../../Tela de Login/index.html'; // Ajuste o caminho conforme necessário
+            } else {
+                throw new Error(result.message);
+            }
+
+        } catch (error) {
+            console.error('Erro no logout:', error);
+            alert('Erro ao sair.');
+        }
     }
 
-    // Inicializa todos os Event Listeners
     initListeners() {
         this.cadastroForm.addEventListener('submit', this.handleCadastro.bind(this));
         this.loginForm.addEventListener('submit', this.handleLogin.bind(this));
@@ -113,9 +122,6 @@ class AuthApp {
     }
 }
 
-// Inicia a aplicação quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', () => {
     new AuthApp();
-
 });
-

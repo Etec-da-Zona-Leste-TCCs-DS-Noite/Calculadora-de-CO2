@@ -1,7 +1,7 @@
 
 const CACHE_NAME = 'auth-pwa-cache-v1';
 const urlsToCache = [
-  '/Pwa-FireBase/'
+  '/Tela de Login/'
 ];
 
 self.addEventListener('install', event => {
