@@ -11,6 +11,33 @@ require_once __DIR__ . '/../Controller/protect.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home - Calculadora de CO2</title>
     <link rel="stylesheet" href="firstSTL.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        .welcome-banner {
+            background-color: #28a745;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #dc3545;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,7 +50,14 @@ require_once __DIR__ . '/../Controller/protect.php';
         <div class="logo"></div>
     </nav>
 
-  
+    <!-- Mensagem de boas-vindas no topo -->
+    <div class="welcome-banner">
+        <h2>Bem-vindo! 👋</h2>
+        <p>Email: <strong><?php echo htmlspecialchars($_SESSION['email']); ?></strong></p>
+        <p>ID do Usuário: <strong><?php echo htmlspecialchars($_SESSION['id']); ?></strong></p>
+        <a href="/Calculadora-de-CO2/Tela de Login/index.php?logout=1" class="btn">Sair</a>
+    </div>
+
     <aside id="sidebar" class="sidebar" role="navigation" aria-hidden="true">
         <nav>
             <ul class="nav-links">
@@ -35,7 +69,6 @@ require_once __DIR__ . '/../Controller/protect.php';
             </ul>
         </nav>
     </aside>
-
 
     <div id="overlay" class="overlay" aria-hidden="true"></div>
     <div class="box01"></div>
@@ -67,10 +100,6 @@ require_once __DIR__ . '/../Controller/protect.php';
         </div>
 
     </div>
-
-    <h1>Bem-vindo, <?php echo htmlspecialchars($_SESSION['email']); ?>!</h1>
-    <p>Você está logado com sucesso!</p>
-    <a href="/Calculadora-de-CO2/Tela de Login/index.php?logout=1">Sair</a>
 
     <script src="carrossel.js"></script>
     <script src="menu.js"></script>
