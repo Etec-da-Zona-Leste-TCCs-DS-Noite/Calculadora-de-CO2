@@ -28,6 +28,8 @@ class AuthApp {
         const email = document.getElementById('cadastro-email').value;
         const password = document.getElementById('cadastro-senha').value;
         
+        console.log('Iniciando cadastro...');
+        
         try {
             const response = await fetch(this.API, {
                 method: 'POST',
@@ -38,21 +40,26 @@ class AuthApp {
                 body: JSON.stringify({ email, password, action: 'register' }),
             });
 
-            const responseText = await response.text();
-            console.log('Resposta bruta:', responseText);
+            console.log('Response status:', response.status);
             
-            const result = JSON.parse(responseText);
+            const result = await response.json();
+            console.log('Resultado:', result);
 
             if (result.success) {
+                console.log('Cadastro bem-sucedido, redirecionando...');
                 alert('Cadastro realizado!');
-                // Redirecionar para home.php
-                window.location.href = '/Calculadora-de-CO2/view/home.php';
+                
+                // Redirecionar
+                console.log('URL de redirecionamento:', '/Calculadora-de-CO2/src/View/home.php');
+                window.location.href = '/Calculadora-de-CO2/src/View/home.php';
+                
             } else {
+                console.log('Erro no cadastro:', result.message);
                 alert(`Erro: ${result.message}`);
             }
 
         } catch (error) {
-            console.error('Erro no cadastro:', error);
+            console.error('Erro na requisição:', error);
             alert(`Erro ao cadastrar: ${error.message}`);
         }
     }

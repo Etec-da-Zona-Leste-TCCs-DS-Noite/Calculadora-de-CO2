@@ -5,16 +5,15 @@ require_once __DIR__ . '/../Controller/protect.php';
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home - Calculadora de CO2</title>
     <link rel="stylesheet" href="firstSTL.css">
 </head>
 
 <body>
-
     <nav class="navbar">
         <button id="hamburger" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="sidebar">
             <span></span>
@@ -69,6 +68,9 @@ require_once __DIR__ . '/../Controller/protect.php';
 
     </div>
 
+    <h1>Bem-vindo, <?php echo htmlspecialchars($_SESSION['email']); ?>!</h1>
+    <p>Você está logado com sucesso!</p>
+    <a href="/Calculadora-de-CO2/Tela de Login/index.php?logout=1">Sair</a>
 
     <script src="carrossel.js"></script>
     <script src="menu.js"></script>
