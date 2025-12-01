@@ -3,7 +3,7 @@
 class Conexao {
     private $host = 'localhost';
     private $user = 'root';
-    private $password = 'ryan140609'; // DEIXE VAZIO se não tiver senha
+    private $password = ''; // DEIXE VAZIO se não tiver senha
     private $database = 'login';
     private $connection;
 
