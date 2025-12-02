@@ -61,11 +61,10 @@ require_once __DIR__ . '/../Controller/protect.php';
     <aside id="sidebar" class="sidebar" role="navigation" aria-hidden="true">
         <nav>
             <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Minha conta</a></li>
-            <li><a href="#">Minhas Conexões</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Contatos</a></li>
+            <li><a href="#1">Home</a></li>
+            <li><a href="conta.php">Minha conta</a></li>
+            <li><a href="#3">Minhas Conexões</a></li>
+            <li><a href="#4">Sobre</a></li\>
             </ul>
         </nav>
     </aside>

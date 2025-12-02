@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoCalc</title>
 
-    <link rel="manifest" href="./Tela de Login/manifest.json">
-    <link rel="stylesheet" href="./Tela de Login/styles.css">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>
@@ -68,7 +68,7 @@
 
     </main>
 
-    <script src="./Tela de Login/app.js"></script>
+    <script src="./app.js"></script>
 
 </body>
 
