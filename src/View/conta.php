@@ -43,6 +43,10 @@ $stmt->close();
                 <li><a href="conta.php">Minha conta</a></li>
                 <li><a href="minha_conect.php">Minhas Conexões</a></li>
                 <li><a href="#4">Sobre</a></li>
+                <ul class="nav-links">
+                <li><a href="../Controller/logout.php" style="color: #ffb3b3;">Sair</a></li>
+</ul>
+
             </ul>
         </nav>
     </aside>

@@ -111,7 +111,7 @@ class AuthApp {
 
             if (result.success) {
                 // Redireciona de volta para a página de login/index
-                window.location.href = '../../Tela de Login/index.php'; // Ajuste o caminho conforme necessário
+                window.location.href = 'index.php'; // Ajuste o caminho conforme necessário
             } else {
                 throw new Error(result.message);
             }

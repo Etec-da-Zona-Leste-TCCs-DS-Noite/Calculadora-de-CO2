@@ -33,6 +33,8 @@ require_once __DIR__ . '/../Controller/protect.php';
                 <li><a href="conta.php">Minha conta</a></li>
                 <li><a href="minha_conect.php">Minhas Conexões</a></li>
                 <li><a href="#4">Sobre</a></li>
+                <li><a href="../Controller/logout.php" style="color: #ffb3b3;">Sair</a></li>
+
             </ul>
         </nav>
     </aside>
