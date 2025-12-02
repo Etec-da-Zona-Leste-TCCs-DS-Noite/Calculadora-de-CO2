@@ -8,11 +8,9 @@ html, body {
     width: 1500px;
     height: 350px;
     overflow: hidden;
-    position: relative;
-    margin: auto;
+    position: relative; /* volta para relative */
+    margin: 20px auto;  /* centraliza e dá espaço do topo */
     border-radius: 10px;
-    margin-top: 20px;
-   z-index: 1;
 }
 
 .slides {
@@ -68,10 +66,9 @@ html, body {
     background: rgb(5, 82, 5);
     color: #fff;
     position: relative;
-  }
+}
   
-
-  .hamburger {
+.hamburger {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -86,29 +83,28 @@ html, body {
     justify-content: center;
     position: relative;
     z-index: 40; 
-  }
+}
   
-  .hamburger span {
+.hamburger span {
     display: block;
     width: 26px;
     height: 3px;
     background: #fff;
     border-radius: 2px;
     transition: transform .25s ease, opacity .25s ease;
-  }
+}
   
-
-  .hamburger.active span:nth-child(1) {
+.hamburger.active span:nth-child(1) {
     transform: translateY(6px) rotate(45deg);
-  }
-  .hamburger.active span:nth-child(2) {
+}
+.hamburger.active span:nth-child(2) {
     opacity: 0;
-  }
-  .hamburger.active span:nth-child(3) {
+}
+.hamburger.active span:nth-child(3) {
     transform: translateY(-6px) rotate(-45deg);
-  }
+}
   
-  .sidebar {
+.sidebar {
     position: fixed;
     left: 0;
     top: 0;
@@ -120,37 +116,35 @@ html, body {
     z-index: 50;
     padding: 60px 20px 20px 20px;
     box-shadow: 4px 0 16px rgba(0,0,0,.5);
-  }
-  
+}
  
-  .sidebar.open {
+.sidebar.open {
     transform: translateX(0);
-  }
+}
   
-
-  .sidebar .nav-links {
+.sidebar .nav-links {
     display: flex;
     flex-direction: column;
     gap: 14px;
     padding: 0;
     margin: 0;
     list-style: none;
-  }
+}
   
-  .sidebar .nav-links a {
+.sidebar .nav-links a {
     color: #fff;
     text-decoration: none;
     font-size: 18px;
     padding: 10px 6px;
     display: block;
     border-radius: 6px;
-  }
+}
   
-  .sidebar .nav-links a:hover {
+.sidebar .nav-links a:hover {
     background: rgba(255,255,255,0.05);
-  }
+}
   
-  .overlay {
+.overlay {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.45);
@@ -158,33 +152,83 @@ html, body {
     pointer-events: none;
     transition: opacity .25s ease;
     z-index: 45;
-  }
-  
-  .overlay.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  
+}
 
-  @media (min-width: 1000px) {
-
-  }
-  
-  .box01 {
+.box01 {
     width: 90%;
     height: 1200px;
     background-color: rgb(213, 211, 203);
     margin: 20px auto;  
     border-radius: 10px;
+    position: relative; 
 }
 
-.box02{
-  width: 100%;
-  height: 250px;
-  background-color: rgb(5, 82, 5);
+.box01 p {
+    font-family: 'Anton', sans-serif;
+    color: rgb(5, 82, 5); /* exemplo de cor */
+    text-align: center; /* centralizar o texto */
+    margin: 20px 0; /* espaçamento superior e inferior */
+}
+  
+.overlay.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+  
+@media (min-width: 1000px) {
+
 }
 
-.texto01{
-  margin-top: -1510px;
-  margin-left: 150px;
+.texto02{
+    font-family: 'Anton', sans-serif;
+    color: rgb(5, 82, 5); /* exemplo de cor */
+    text-align: center; /* centralizar o texto */
+    margin: 20px 0; /* espaçamento superior e inferior */
+}
+
+/* ===================== FOOTER ===================== */
+footer {
+    position: relative;          /* necessário para posicionamento interno */
+    background-color: rgb(5, 82, 5);
+    color: #fff;
+    height: 300px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;         /* centraliza o "Fale com a gente !" */
+    padding-top: 20px;
+}
+
+
+/* Imagem à esquerda do footer */
+footer img {
+    position: absolute;
+    left: 38px;                  /* distância da borda esquerda */
+    top: 100px;                   /* alinhamento vertical */
+    width: 64px;                  /* ajusta o tamanho da imagem */
+    height: auto;
+}
+
+/* Texto "emails:" ao lado da imagem */
+footer img + p {
+    position: absolute;
+    left: 100px;                  /* logo após a imagem */
+    top: 75px;                     /* ajusta verticalmente */
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 1.95em;
+}
+
+
+.emails {
+    position: abolute;
+    top: 1300px;                 
+    left: 80px;                   
+    font-family: 'Anton', sans-serif;
+    color: #fff;
+    line-height: 1.4;
+}
+
+.emails p {
+    margin: 2px 0;
 }
