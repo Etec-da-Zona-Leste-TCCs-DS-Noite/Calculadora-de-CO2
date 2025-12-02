@@ -442,7 +442,7 @@ $stmt->close();
             </div>
             <hr>
 
-            <form class="form-grid" action="update_user.php" method="POST">
+            <form class="form-grid" action="../Model/update_user.php" method="POST">
                 <label>Nome
                     <input type="text" name="nome" placeholder="Seu nome"
                         value="<?php echo htmlspecialchars($nome_atual); ?>" required>
@@ -467,7 +467,7 @@ $stmt->close();
             <div class="delete-section">
                 <h4>Excluir Conta</h4>
                 <p>Esta ação é permanente e não pode ser desfeita.</p>
-                <form action="delete_user.php" method="POST">
+                <form action="../Model/delete_user.php" method="POST">
                     <button class="btn-delete" type="submit">Deletar Conta</button>
                 </form>
             </div>

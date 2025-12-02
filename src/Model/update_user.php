@@ -44,5 +44,5 @@ if (!empty($nova_senha)) {
     $stmt->close();
 }
 
-echo "<script>alert('Informações atualizadas com sucesso!'); window.location.href='conta.php';</script>";
+echo "<script>alert('Informações atualizadas com sucesso!'); window.location.href='../View/conta.php';</script>";
 ?>
