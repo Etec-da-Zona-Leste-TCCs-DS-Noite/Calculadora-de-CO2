@@ -85,7 +85,7 @@ class AuthApp {
             if (result.success) {
                 alert(result.message);
                 // Redireciona para a home.php usando window.location
-                window.location.href = '../src/View/home.php'; 
+                window.location.href = '/Calculadora-de-CO2/src/View/home.php'; 
             } else {
                 throw new Error(result.message);
             }
@@ -111,7 +111,7 @@ class AuthApp {
 
             if (result.success) {
                 // Redireciona de volta para a página de login/index
-                window.location.href = '../../Tela de Login/index.html'; // Ajuste o caminho conforme necessário
+                window.location.href = '../../Tela de Login/index.php'; // Ajuste o caminho conforme necessário
             } else {
                 throw new Error(result.message);
             }

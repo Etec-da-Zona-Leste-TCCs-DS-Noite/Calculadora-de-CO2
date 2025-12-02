@@ -4,12 +4,17 @@ html, body {
     background-color: rgb(255, 252, 243);    
 }
 
+/* Adicionado: Garante que o conteúdo principal fique abaixo da navbar fixa */
+body main { 
+    padding-top: 70px; 
+}
+
 .carousel {
     width: 1500px;
     height: 350px;
     overflow: hidden;
-    position: relative; /* volta para relative */
-    margin: 20px auto;  /* centraliza e dá espaço do topo */
+    position: relative; 
+    margin: 20px auto;  
     border-radius: 10px;
 }
 
@@ -58,6 +63,18 @@ html, body {
 }
 
 
+/* ===================== NAVBAR (Topo verde escuro) ===================== */
+@media (max-width: 560px) {
+    .sidebar {
+        width: 100%;
+        left: -100%;
+    }
+
+    .sidebar.open {
+        left: 0;
+    }
+}
+
 .navbar {
     display: flex;
     align-items: center;
@@ -67,7 +84,7 @@ html, body {
     color: #fff;
     position: relative;
 }
-  
+
 .hamburger {
     display: flex;
     flex-direction: column;
@@ -82,9 +99,9 @@ html, body {
     align-items: center;
     justify-content: center;
     position: relative;
-    z-index: 40; 
+    z-index: 40;
 }
-  
+
 .hamburger span {
     display: block;
     width: 26px;
@@ -93,65 +110,76 @@ html, body {
     border-radius: 2px;
     transition: transform .25s ease, opacity .25s ease;
 }
-  
+
 .hamburger.active span:nth-child(1) {
     transform: translateY(6px) rotate(45deg);
 }
+
 .hamburger.active span:nth-child(2) {
     opacity: 0;
 }
+
 .hamburger.active span:nth-child(3) {
     transform: translateY(-6px) rotate(-45deg);
 }
-  
+
+/* ===================== SIDEBAR VERDE ===================== */
 .sidebar {
-    position: fixed;
-    left: 0;
-    top: 0;
-    height: 100vh;
     width: 260px;
-    background: rgb(9, 148, 9);
-    transform: translateX(-110%); 
-    transition: transform .35s cubic-bezier(.2,.9,.3,1);
-    z-index: 50;
-    padding: 60px 20px 20px 20px;
-    box-shadow: 4px 0 16px rgba(0,0,0,.5);
+    height: 100vh;
+    background: rgb(9, 148, 9) !important;
+    color: #ffffff !important;
+    position: fixed;
+    top: 0;
+    left: -280px;
+    transition: left 0.28s ease, transform 0.28s ease;
+    box-shadow: 0 0 20px rgba(0,0,0,0.4);
+    z-index: 1100;
+    padding-top: 70px;
 }
- 
+
 .sidebar.open {
-    transform: translateX(0);
+    left: 0;
 }
-  
+
 .sidebar .nav-links {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 0;
-    margin: 0;
     list-style: none;
+    padding: 10px 18px;
 }
-  
+
+.sidebar .nav-links li {
+    margin-bottom: 10px;
+}
+
 .sidebar .nav-links a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-    padding: 10px 6px;
     display: block;
-    border-radius: 6px;
+    padding: 10px 14px;
+    color: #ffffff !important;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
 }
-  
-.sidebar .nav-links a:hover {
-    background: rgba(255,255,255,0.05);
+
+.sidebar .nav-links a:hover,
+.sidebar .nav-links a:focus {
+    background: transparent;
+    color: #ffffff;
 }
-  
-.overlay {
+
+/* ===================== OVERLAY (Fundo que escurece) ===================== */
+#overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0,0,0,0.45);
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 1050;
     opacity: 0;
-    pointer-events: none;
-    transition: opacity .25s ease;
-    z-index: 45;
+    visibility: hidden;
+    transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+#overlay.show {
+    opacity: 1;
+    visibility: visible;
 }
 
 .box01 {
@@ -165,14 +193,9 @@ html, body {
 
 .box01 p {
     font-family: 'Anton', sans-serif;
-    color: rgb(5, 82, 5); /* exemplo de cor */
-    text-align: center; /* centralizar o texto */
-    margin: 20px 0; /* espaçamento superior e inferior */
-}
-  
-.overlay.visible {
-    opacity: 1;
-    pointer-events: auto;
+    color: rgb(5, 82, 5);
+    text-align: center;
+    margin: 20px 0;
 }
   
 @media (min-width: 1000px) {
@@ -181,48 +204,46 @@ html, body {
 
 .texto02{
     font-family: 'Anton', sans-serif;
-    color: rgb(5, 82, 5); /* exemplo de cor */
-    text-align: center; /* centralizar o texto */
-    margin: 20px 0; /* espaçamento superior e inferior */
+    color: rgb(5, 82, 5);
+    text-align: center;
+    margin: 20px 0;
 }
 
 /* ===================== FOOTER ===================== */
 footer {
-    position: relative;          /* necessário para posicionamento interno */
+    position: relative;          
     background-color: rgb(5, 82, 5);
     color: #fff;
     height: 300px;
     width: 100%;
     display: flex;
     flex-direction: column;
-    align-items: center;         /* centraliza o "Fale com a gente !" */
+    align-items: center;         
     padding-top: 20px;
 }
-
 
 /* Imagem à esquerda do footer */
 footer img {
     position: absolute;
-    left: 38px;                  /* distância da borda esquerda */
-    top: 100px;                   /* alinhamento vertical */
-    width: 64px;                  /* ajusta o tamanho da imagem */
+    left: 38px;                  
+    top: 100px;                   
+    width: 64px;                  
     height: auto;
 }
 
 /* Texto "emails:" ao lado da imagem */
 footer img + p {
     position: absolute;
-    left: 100px;                  /* logo após a imagem */
-    top: 75px;                     /* ajusta verticalmente */
+    left: 100px;                  
+    top: 75px;                     
     display: inline-block;
     vertical-align: middle;
     font-size: 1.95em;
 }
 
-
 .emails {
-    position: abolute;
-    top: 1300px;                 
+    position: absolute;
+    top: 130px;                 
     left: 80px;                   
     font-family: 'Anton', sans-serif;
     color: #fff;

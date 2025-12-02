@@ -20,21 +20,6 @@ body {
     padding: 40px 20px;
 }
 
-/* ===== Menu botão ===== */
-.menu-btn {
-    position: fixed;
-    top: 18px;
-    left: 18px;
-    font-size: 20px;
-    background: #28a745;
-    color: #fff;
-    border: none;
-    padding: 10px 12px;
-    border-radius: 10px;
-    cursor: pointer;
-    z-index: 1200;
-    box-shadow: 0 6px 18px rgba(40, 167, 69, 0.18);
-}
 
 /* ===== Sidebar ===== */
 .sidebar {

@@ -26,6 +26,7 @@ $stmt->close();
 </head>
 
 <body>
+    
     <nav class="navbar">
         <button id="hamburger" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="sidebar">
             <span></span>
@@ -40,7 +41,7 @@ $stmt->close();
             <ul class="nav-links">
                 <li><a href="home.php">Home</a></li>
                 <li><a href="conta.php">Minha conta</a></li>
-                <li><a href="#3">Minhas Conexões</a></li>
+                <li><a href="minha_conect.php">Minhas Conexões</a></li>
                 <li><a href="#4">Sobre</a></li>
             </ul>
         </nav>
@@ -98,23 +99,36 @@ $stmt->close();
     </div>
     <script>
 
-        const hamburger = document.getElementById("hamburger");
-        const sidebar = document.getElementById("sidebar");
-        const overlay = document.getElementById("overlay");
+        // IDs EXISTENTES NO HTML
+      const menuBtn  = document.getElementById("hamburger");
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
 
-        hamburger.addEventListener("click", () => {
-            const isOpen = hamburger.classList.toggle("active");
-            sidebar.classList.toggle("open");
-            overlay.classList.toggle("visible");
-        });
+      // Proteção contra erro
+      if (!menuBtn) console.error("ERRO: #menu-btn não encontrado.");
+      if (!sidebar) console.error("ERRO: #sidebar não encontrado.");
+      if (!overlay) console.error("ERRO: #overlay não encontrado.");
 
-        overlay.addEventListener("click", () => {
-            hamburger.classList.remove("active");
-            sidebar.classList.remove("open");
-            overlay.classList.remove("visible");
-        });
+      function toggleMenu() {
+          sidebar.classList.toggle("open");
+          overlay.classList.toggle("show");
 
+          const isOpen = sidebar.classList.contains("open");
+          menuBtn.setAttribute("aria-expanded", isOpen);
+          sidebar.setAttribute("aria-hidden", !isOpen);
+      }
 
+      // EVENTOS
+      menuBtn.addEventListener("click", toggleMenu);
+      overlay.addEventListener("click", toggleMenu);
+
+      // ESC fecha
+      document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && sidebar.classList.contains("open")) {
+              toggleMenu();
+          }
+      }); // <-- FECHAMENTO CORRETO DO EVENTO
+      
     </script>
 </body>
 

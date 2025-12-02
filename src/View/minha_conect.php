@@ -12,23 +12,31 @@
   <!-- Header com botão do menu -->
   <div class="header">
     <button id="menu-btn" class="menu-btn">☰</button>
-    <div class="menu-title">Conexão</div>
+
   </div>
 
   <!-- Sidebar -->
-  <aside id="sidebar" class="sidebar" role="navigation" aria-hidden="true">
+  <nav class="navbar">
+        <button id="hamburger" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="sidebar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="logo"></div>
+    </nav>
+    <aside id="sidebar" class="sidebar" role="navigation" aria-hidden="true">
         <nav>
             <ul class="nav-links">
                 <li><a href="home.php">Home</a></li>
                 <li><a href="conta.php">Minha conta</a></li>
-                <li><a href="#3">Minhas Conexões</a></li>
+                <li><a href="minha_conect.php">Minhas Conexões</a></li>
                 <li><a href="#4">Sobre</a></li>
             </ul>
         </nav>
     </aside>
 
   <!-- Overlay -->
-  <div id="overlay"></div>
+ <div id="overlay" class="overlay" aria-hidden="true"></div>
 
   <div class="page">
     <h1>Minhas Conexões</h1>
@@ -71,7 +79,40 @@
 
     </div>
   </div>
-   <script src="menu.js"></script>
+   <script>
+
+      // IDs EXISTENTES NO HTML
+const menuBtn  = document.getElementById("menu-btn");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+
+// Proteção contra erro
+if (!menuBtn) console.error("ERRO: #menu-btn não encontrado.");
+if (!sidebar) console.error("ERRO: #sidebar não encontrado.");
+if (!overlay) console.error("ERRO: #overlay não encontrado.");
+
+function toggleMenu() {
+    sidebar.classList.toggle("open");
+    overlay.classList.toggle("show");
+
+    const isOpen = sidebar.classList.contains("open");
+    menuBtn.setAttribute("aria-expanded", isOpen);
+    sidebar.setAttribute("aria-hidden", !isOpen);
+}
+
+// EVENTOS
+menuBtn.addEventListener("click", toggleMenu);
+overlay.addEventListener("click", toggleMenu);
+
+// ESC fecha
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && sidebar.classList.contains("open")) {
+        toggleMenu();
+    }
+});
+
+
+   </script>
 
 </body>
 </html>

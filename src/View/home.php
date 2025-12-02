@@ -12,11 +12,12 @@ require_once __DIR__ . '/../Controller/protect.php';
     <title>Document</title>
     <link rel="stylesheet" href="firstSTL.css">
     <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet" />
+    <script></script>
 </head>
 
 <body>
-
-    <nav class="navbar">
+  
+<nav class="navbar">
         <button id="hamburger" class="hamburger" aria-label="Abrir menu" aria-expanded="false" aria-controls="sidebar">
             <span></span>
             <span></span>
@@ -25,19 +26,16 @@ require_once __DIR__ . '/../Controller/protect.php';
         <div class="logo"></div>
     </nav>
 
-   
     <aside id="sidebar" class="sidebar" role="navigation" aria-hidden="true">
         <nav>
             <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Minha conta</a></li>
-            <li><a href="#">Minhas Conexões</a></li>
-            <li><a href="#">Sobre</a></li>
-            <li><a href="#">Contatos</a></li>
+                <li><a href="home.php">Home</a></li>
+                <li><a href="conta.php">Minha conta</a></li>
+                <li><a href="minha_conect.php">Minhas Conexões</a></li>
+                <li><a href="#4">Sobre</a></li>
             </ul>
         </nav>
     </aside>
-
 
     <div id="overlay" class="overlay" aria-hidden="true"></div>
 
@@ -73,20 +71,51 @@ require_once __DIR__ . '/../Controller/protect.php';
       <p style="font-family:'Anton', sans-serif; font-size: 5em">SOBRE NÓS</p>
     </div>
 
-    
     <div class="emails">
       <p>matheus.santos1944@etec.sp.gov.br</p>
       <p>pedro.santos1248@etec.sp.gov.br</p>
       <p>ryan.guedes@etec.sp.gov.br</p>
-      </div>
-
+    </div>
 
     <footer>
       <p style="font-family:'Anton', sans-serif; font-size: 3em; text-align: center;">Fale com a gente !</p>
-      <img src="icons8-nova-mensagem-64.png" alt=""><p style="font-family:'Anton', sans-serif; font-size: 1.95em "> emails:</p>
+      <img src="icons8-nova-mensagem-64.png" alt="">
+      <p style="font-family:'Anton', sans-serif; font-size: 1.95em "> emails:</p>
     </footer>
 
     <script src="carrossel.js"></script>
-    <script src="menu.js"></script>
+
+    <script>
+      // IDs EXISTENTES NO HTML
+      const menuBtn  = document.getElementById("hamburger");
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+
+      // Proteção contra erro
+      if (!menuBtn) console.error("ERRO: #menu-btn não encontrado.");
+      if (!sidebar) console.error("ERRO: #sidebar não encontrado.");
+      if (!overlay) console.error("ERRO: #overlay não encontrado.");
+
+      function toggleMenu() {
+          sidebar.classList.toggle("open");
+          overlay.classList.toggle("show");
+
+          const isOpen = sidebar.classList.contains("open");
+          menuBtn.setAttribute("aria-expanded", isOpen);
+          sidebar.setAttribute("aria-hidden", !isOpen);
+      }
+
+      // EVENTOS
+      menuBtn.addEventListener("click", toggleMenu);
+      overlay.addEventListener("click", toggleMenu);
+
+      // ESC fecha
+      document.addEventListener("keydown", (e) => {
+          if (e.key === "Escape" && sidebar.classList.contains("open")) {
+              toggleMenu();
+          }
+      }); // <-- FECHAMENTO CORRETO DO EVENTO
+
+    </script>
 </body>
 </html>
