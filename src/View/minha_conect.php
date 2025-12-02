@@ -16,14 +16,16 @@
   </div>
 
   <!-- Sidebar -->
-  <div id="sidebar" class="sidebar">
-      <ul class="nav-links">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Minha Conta</a></li>
-          <li><a href="#">Minhas Conexões</a></li>
-          <li><a href="#">Contato</a></li>
-      </ul>
-  </div>
+  <aside id="sidebar" class="sidebar" role="navigation" aria-hidden="true">
+        <nav>
+            <ul class="nav-links">
+                <li><a href="home.php">Home</a></li>
+                <li><a href="conta.php">Minha conta</a></li>
+                <li><a href="#3">Minhas Conexões</a></li>
+                <li><a href="#4">Sobre</a></li>
+            </ul>
+        </nav>
+    </aside>
 
   <!-- Overlay -->
   <div id="overlay"></div>
@@ -73,3 +75,4 @@
 
 </body>
 </html>
+
