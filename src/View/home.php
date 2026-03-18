@@ -1,6 +1,6 @@
-<?php
+<!--?php
 require_once __DIR__ . '/../Controller/protect.php';
-?>
+?> -->
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -64,8 +64,8 @@ require_once __DIR__ . '/../Controller/protect.php';
     <!-- BLOCO 1 -->
     <div class="section">
         <p>
-            A Calculadora de CO₂ nasceu com o objetivo de tornar o monitoramento
-            ambiental mais simples, preciso e acessível para empresas que buscam
+            A Sky-Guard nasceu com o objetivo de tornar o monitoramento
+            sobre gases poluentes mais simples, preciso e acessível para empresas que buscam
             reduzir seu impacto ecológico.
         </p>
         <img src="foto4.avif">
@@ -125,17 +125,19 @@ require_once __DIR__ . '/../Controller/protect.php';
 
 <!-- SCRIPT MENU -->
 <script>
-const menuBtn  = document.getElementById("hamburger");
-const sidebar = document.getElementById("sidebar");
-const overlay = document.getElementById("overlay");
+document.addEventListener("DOMContentLoaded", function () {
+    const menuBtn  = document.getElementById("hamburger");
+    const sidebar = document.getElementById("sidebar");
+    const overlay = document.getElementById("overlay");
 
-function toggleMenu() {
-    sidebar.classList.toggle("open");
-    overlay.classList.toggle("show");
-}
+    function toggleMenu() {
+        sidebar.classList.toggle("open");
+        overlay.classList.toggle("show");
+    }
 
-menuBtn.addEventListener("click", toggleMenu);
-overlay.addEventListener("click", toggleMenu);
+    menuBtn.addEventListener("click", toggleMenu);
+    overlay.addEventListener("click", toggleMenu);
+});
 </script>
 
 </body>

@@ -26,9 +26,9 @@ prevBtn.addEventListener("click", () => {
     showSlide(index);
 });
 
-nav.forEach((dot, i) => {
+//nav.forEach((dot, i) => {
     dot.addEventListener("click", () => {
         showSlide(i);
     });
-});
+//});
 

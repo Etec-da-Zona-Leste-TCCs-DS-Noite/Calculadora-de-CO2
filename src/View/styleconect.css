@@ -8,13 +8,12 @@
 html,
 body {
   height: 100%;
+   background-color: rgb(255, 252, 243);
 }
 
 /* ===== Body / Layout ===== */
 body {
-  font-family: "Poppins", Arial, sans-serif;
-  background: #fdf8f0;
-  color: #222;
+   font-family: 'Anton', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   /* padding: 40px 20px; Removido para que o header fixo funcione */
@@ -35,7 +34,7 @@ body {
 h1 {
    font-size: 30px;
    font-weight: 700;
-   color: #0f3d26;
+   color: #010101;
    margin-bottom: 10px;
    margin-left: 15px;
 }
@@ -50,7 +49,7 @@ h1 {
 /* ===== HEADER (Barra superior verde escura) ===== */
 .header {
    width: 100%;
-   background:rgb(0, 170, 0); /* Seu verde escuro original da imagem */
+   background:#3a3a3a;
    padding: 14px 20px;
    display: flex;
    align-items: center;
@@ -78,7 +77,7 @@ h1 {
 .sidebar {
     width: 260px;
     height: 100vh;
-    background: rgb(0, 170, 0);
+    background:  #3a3a3a;
     position: fixed;
     top: 0;
     left: -280px;
@@ -129,7 +128,7 @@ h1 {
    transition: opacity 0.2s ease, visibility 0.2s ease;
 }
 
-#overlay.show { /* Alterado de .visible para .show */
+#overlay.show { 
    opacity: 1;
    visibility: visible;
 }
