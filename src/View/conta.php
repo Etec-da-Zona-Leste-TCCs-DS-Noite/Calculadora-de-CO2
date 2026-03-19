@@ -128,12 +128,12 @@ $stmt->close();
       menuBtn.addEventListener("click", toggleMenu);
       overlay.addEventListener("click", toggleMenu);
 
-      // ESC fecha
+    
       document.addEventListener("keydown", (e) => {
           if (e.key === "Escape" && sidebar.classList.contains("open")) {
               toggleMenu();
           }
-      }); // <-- FECHAMENTO CORRETO DO EVENTO
+      }); 
       
     </script>
 </body>
