@@ -47,17 +47,17 @@ html, body {
     margin: 5px 0;
 }
 
-/* ===================== SIDEBAR ===================== */
+/* SIDEBAR */
 .sidebar {
     position: fixed;
     top: 0;
-    left: -260px;      /* escondida inicialmente */
+    left: -260px;    
     width: 260px;
     height: 100vh;
     background: #3a3a3a;
     transition: left 0.3s ease;
-    z-index: 1003;     /* abaixo da navbar, acima do overlay */
-    padding-top: 60px; /* para não ficar atrás da navbar */
+    z-index: 1003;     
+    padding-top: 60px; 
 }
 
 .sidebar.open {
@@ -83,7 +83,7 @@ html, body {
     background: rgba(255, 255, 255, 0.05);
 }
 
-/* ===================== OVERLAY ===================== */
+
 .overlay {
     position: fixed;
     top: 0;
@@ -95,7 +95,7 @@ html, body {
     visibility: hidden;
     pointer-events: none;
     transition: opacity 0.3s ease;
-    z-index: 1000;   /* atrás da sidebar, abaixo dela */
+    z-index: 1000;  
 }
 
 .overlay.show {
@@ -104,10 +104,10 @@ html, body {
     pointer-events: all;
 }
 
-/* ===== Painel de Conta ===== */
+
 .account-panel {
     max-width: 760px;
-    margin: 100px auto 30px auto; /* espaço superior para navbar fixa */
+    margin: 100px auto 30px auto; 
     padding: 0 20px;
 }
 
@@ -127,7 +127,7 @@ html, body {
     font-size: 14px;
 }
 
-/* Card */
+
 .account-card {
     background: #fff;
     padding: 24px;
@@ -136,7 +136,7 @@ html, body {
     border: 1px solid rgba(20, 20, 20, 0.02);
 }
 
-/* Profile top */
+
 .profile-section {
     display: flex;
     gap: 14px;
@@ -169,14 +169,14 @@ html, body {
     margin-bottom: 3px;
 }
 
-/* Divider */
+
 .account-card hr {
     border: none;
     border-top: 1px solid #eee;
     margin: 16px 0;
 }
 
-/* Form grid */
+
 .form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -206,7 +206,7 @@ html, body {
     box-shadow: 0 6px 18px rgba(40, 167, 69, 0.08);
 }
 
-/* Save button */
+
 .btn-save {
     grid-column: 1 / -1;
     padding: 12px 18px;
@@ -219,7 +219,7 @@ html, body {
     margin-top: 6px;
 }
 
-/* Delete area */
+
 .delete-section {
     margin-top: 20px;
     text-align: center;
@@ -236,7 +236,6 @@ html, body {
     cursor: pointer;
 }
 
-/* ===== Responsividade ===== */
 @media (max-width: 560px) {
     .sidebar {
         width: 100%;
