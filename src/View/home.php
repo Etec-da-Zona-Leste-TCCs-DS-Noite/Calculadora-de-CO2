@@ -1,7 +1,6 @@
-<!--?php
+<?php
 require_once __DIR__ . '/../Controller/protect.php';
-?> -->
-
+?> 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
