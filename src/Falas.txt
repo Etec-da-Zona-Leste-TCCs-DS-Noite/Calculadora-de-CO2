@@ -1,0 +1,29 @@
+Conexao:
+
+Classe `Conexao` encapsula a conexão com banco MySQL usando `mysqli`. Define host, usuário, senha e banco como atributos privados. No construtor, instancia a conexão e valida erros, lançando exceção em falha. Oferece `getConnection()` para acesso externo e `closeConnection()` para encerrar a conexão ativa com segurança.
+
+Login controller:
+
+API própria feita em  PHP que gerencia autenticação via JSON. Valida método HTTP, conecta ao banco e processa ações (register, login, logout). Usa prepared statements, sanitização e hash de senha. Controla sessões, retorna respostas padronizadas com status HTTP e trata erros de forma segura.
+
+Logout:
+
+Script de logout que inicia a sessão (se necessário), destrói todos os dados com `session_destroy()` e redireciona o usuário para a tela de login via `header("Location: ...")`, encerrando a autenticação atual.
+
+Protect:
+
+Script de proteção de rota. Inicia a sessão se não estiver ativa e verifica $_SESSION['loggedin']. Caso o usuário não esteja autenticado, redireciona para a tela de login e encerra a execução com exit, impedindo acesso indevido.
+
+Consulta:
+
+Código dividido em duas partes: a 1ª realiza login via POST, valida campos e consulta o banco comparando email/senha (sem hash, vulnerável). Se válido, inicia sessão e redireciona; senão, retorna erro. A 2ª define `UsuarioModel` com operações CRUD usando prepared statements, melhorando segurança, organização e prevenção contra SQL Injection.
+
+delete:
+
+Script protegido que exclui a conta do usuário logado. Usa conexão via classe `Conexao`, obtém o `id` da sessão e remove registros nas tabelas `Conta` e `usuario` com prepared statements. Finaliza a sessão (logout) e redireciona com alerta de sucesso.
+
+Update:
+Script protegido que atualiza dados do usuário logado. Valida a senha atual com `password_verify`, atualiza email em `usuario` e nome/email em `Conta`. Se houver nova senha, aplica hash e salva. Usa prepared statements e finaliza com alerta e redirecionamento.
+
+Login:
+Classe `AuthApp` gerencia front-end de autenticação em SPA (Single Page Application). Controla telas de login, cadastro e dashboard, envia requisições `fetch` para o PHP (`LoginController.php`) com JSON, trata respostas de registro, login e logout, manipula sessões via `credentials: 'include'` e gerencia navegação/alertas no navegador.
