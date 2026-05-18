@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SkyGuard — Simulador de Monitoramento</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: #0D1B2A;
+      color: #E2E8F0;
+      min-height: 100vh;
+    }
+
+    /* ── Header ── */
+    header {
+      background: #1B4332;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      border-bottom: 3px solid #40916C;
+    }
+    header h1 { font-size: 1.5rem; color: #74C69D; }
+    header p  { font-size: 0.85rem; color: #A8D5BA; }
+    .badge {
+      margin-left: auto;
+      background: #40916C;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: bold;
+      color: white;
+    }
+
+    /* ── Layout ── */
+    main {
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 768px) { main { grid-template-columns: 1fr; } }
+
+    /* ── Cards ── */
+    .card {
+      background: #1B2D4A;
+      border-radius: 12px;
+      padding: 1.5rem;
+      border: 1px solid #2D4A6A;
+    }
+    .card h2 {
+      font-size: 1rem;
+      color: #74C69D;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .card.full { grid-column: 1 / -1; }
+
+    /* ── Sensor Display ── */
+    .sensor-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .sensor-box {
+      background: #0D1B2A;
+      border-radius: 10px;
+      padding: 1.2rem;
+      text-align: center;
+      border: 2px solid #2D4A6A;
+      transition: border-color 0.4s;
+    }
+    .sensor-box.ok      { border-color: #40916C; }
+    .sensor-box.atencao { border-color: #F4D03F; }
+    .sensor-box.critico { border-color: #E63946; }
+    .sensor-label { font-size: 0.75rem; color: #94A3B8; margin-bottom: 0.4rem; }
+    .sensor-value { font-size: 2.2rem; font-weight: bold; color: #74C69D; }
+    .sensor-unit  { font-size: 0.8rem; color: #64748B; margin-top: 0.2rem; }
+    .sensor-status {
+      display: inline-block;
+      margin-top: 0.5rem;
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: bold;
+    }
+    .status-ok      { background: #1B4332; color: #74C69D; }
+    .status-atencao { background: #78350F; color: #FCD34D; }
+    .status-critico { background: #7F1D1D; color: #FCA5A5; }
+
+    /* ── Barra de progresso ── */
+    .progress-wrap { margin: 0.6rem 0; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 0.78rem; color: #94A3B8; margin-bottom: 4px; }
+    .progress-bar {
+      height: 8px;
+      background: #2D4A6A;
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.8s ease, background 0.8s;
+    }
+
+    /* ── Botões ── */
+    .btn-row { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1rem; }
+    button {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.1s;
+    }
+    button:hover  { opacity: 0.85; }
+    button:active { transform: scale(0.97); }
+    .btn-primary { background: #40916C; color: white; }
+    .btn-warn    { background: #B45309; color: white; }
+    .btn-danger  { background: #B91C1C; color: white; }
+    .btn-gray    { background: #334155; color: #CBD5E1; }
+
+    /* ── Histórico / Log ── */
+    #historico {
+      max-height: 200px;
+      overflow-y: auto;
+      background: #0D1B2A;
+      border-radius: 8px;
+      padding: 0.8rem;
+      font-size: 0.82rem;
+      font-family: monospace;
+    }
+    .log-entry { padding: 3px 0; border-bottom: 1px solid #1E3A5A; }
+    .log-ok      { color: #4ADE80; }
+    .log-atencao { color: #FCD34D; }
+    .log-critico { color: #F87171; }
+
+    /* ── Testes ── */
+    #testes-output {
+      background: #0D1B2A;
+      border-radius: 8px;
+      padding: 1rem;
+      font-family: monospace;
+      font-size: 0.82rem;
+      max-height: 280px;
+      overflow-y: auto;
+    }
+    .teste-linha { padding: 3px 0; }
+    .teste-pass  { color: #4ADE80; }
+    .teste-fail  { color: #F87171; }
+    .teste-info  { color: #94A3B8; }
+    .teste-titulo { color: #74C69D; font-weight: bold; margin-top: 0.5rem; }
+
+    /* ── Alerta ── */
+    #alerta-box {
+      display: none;
+      background: #7F1D1D;
+      border: 1px solid #E63946;
+      border-radius: 10px;
+      padding: 1rem 1.5rem;
+      text-align: center;
+      animation: pulsar 1s infinite alternate;
+    }
+    #alerta-box.show { display: block; }
+    @keyframes pulsar {
+      from { box-shadow: 0 0 0 rgba(230,57,70,0); }
+      to   { box-shadow: 0 0 18px rgba(230,57,70,0.7); }
+    }
+    #alerta-box h3 { color: #FCA5A5; margin-bottom: 0.4rem; }
+    #alerta-box p  { color: #FECACA; font-size: 0.9rem; }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.78rem;
+      color: #475569;
+      border-top: 1px solid #1E3A5A;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>&#127757; SkyGuard</h1>
+    <p>Simulador de Monitoramento da Qualidade do Ar</p>
+  </div>
+  <span class="badge" id="badge-status">● NORMAL</span>
+</header>
+
+<main>
+
+  <!-- Sensores -->
+  <div class="card">
+    <h2>Leituras do Sensor SGP30</h2>
+    <div class="sensor-grid">
+      <div class="sensor-box ok" id="box-tvoc">
+        <div class="sensor-label">TVOC</div>
+        <div class="sensor-value" id="val-tvoc">0</div>
+        <div class="sensor-unit">ppb</div>
+        <span class="sensor-status status-ok" id="st-tvoc">Bom</span>
+      </div>
+      <div class="sensor-box ok" id="box-eco2">
+        <div class="sensor-label">eCO&#8322;</div>
+        <div class="sensor-value" id="val-eco2">400</div>
+        <div class="sensor-unit">ppm</div>
+        <span class="sensor-status status-ok" id="st-eco2">Bom</span>
+      </div>
+    </div>
+
+    <div style="margin-top:1.2rem;">
+      <div class="progress-wrap">
+        <div class="progress-label"><span>TVOC (0–600 ppb)</span><span id="pct-tvoc">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-tvoc" style="width:0%;background:#40916C;"></div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-label"><span>eCO&#8322; (400–2000 ppm)</span><span id="pct-eco2">0%</span></div>
+        <div class="progress-bar"><div class="progress-fill" id="fill-eco2" style="width:0%;background:#40916C;"></div></div>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn-primary" onclick="simularNormal()">Simular Normal</button>
+      <button class="btn-warn"    onclick="simularAtencao()">Simular Atenção</button>
+      <button class="btn-danger"  onclick="simularCritico()">Simular Crítico</button>
+    </div>
+  </div>
+
+  <!-- Alerta -->
+  <div class="card" style="display:flex;flex-direction:column;justify-content:space-between;">
+    <h2>Status do Sistema</h2>
+    <div id="alerta-box">
+      <h3>&#9888; ALERTA DE QUALIDADE DO AR</h3>
+      <p id="alerta-msg">Nível crítico detectado. Ventile o ambiente imediatamente.</p>
+    </div>
+    <div id="alerta-ok" style="text-align:center;padding:1rem;">
+      <div style="font-size:3rem;">&#9989;</div>
+      <p style="color:#74C69D;font-weight:bold;margin-top:0.5rem;">Qualidade do ar dentro dos padrões normais.</p>
+    </div>
+    <div style="margin-top:1rem;">
+      <p style="font-size:0.8rem;color:#64748B;">Última atualização: <span id="ultima-atualizacao">—</span></p>
+      <p style="font-size:0.8rem;color:#64748B;margin-top:4px;">Total de leituras: <span id="total-leituras">0</span></p>
+    </div>
+  </div>
+
+  <!-- Histórico -->
+  <div class="card">
+    <h2>Histórico de Leituras</h2>
+    <div id="historico"><span class="teste-info">Aguardando leituras...</span></div>
+    <div class="btn-row">
+      <button class="btn-gray" onclick="limparHistorico()">Limpar histórico</button>
+    </div>
+  </div>
+
+  <!-- Testes -->
+  <div class="card">
+    <h2>&#9881; Testes Automatizados</h2>
+    <div id="testes-output"><span class="teste-info">Clique em "Executar Testes" para rodar a bateria de testes do sistema.</span></div>
+    <div class="btn-row">
+      <button class="btn-primary" onclick="executarTestes()">&#9654; Executar Testes</button>
+      <button class="btn-gray"    onclick="document.getElementById('testes-output').innerHTML=''">Limpar</button>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  SkyGuard · Estudo de Caso — Testes de Software · ETEC Zona Leste · 2026<br>
+  Repositório: <a href="https://github.com/seu-usuario/skyguard-testes" style="color:#40916C;">github.com/seu-usuario/skyguard-testes</a>
+</footer>
+
+<script>
+  // ─── Estado global ───────────────────────────────────────────────
+  let estado = { tvoc: 0, eco2: 400, modo: 'normal', totalLeituras: 0 };
+
+  // ─── Classificação ───────────────────────────────────────────────
+  function classificarTVOC(v) {
+    if (v <= 220)  return { nivel: 'ok',      label: 'Bom',     css: 'status-ok' };
+    if (v <= 660)  return { nivel: 'atencao', label: 'Atenção', css: 'status-atencao' };
+    return             { nivel: 'critico',  label: 'Crítico', css: 'status-critico' };
+  }
+  function classificarECO2(v) {
+    if (v <= 1000) return { nivel: 'ok',      label: 'Bom',     css: 'status-ok' };
+    if (v <= 1500) return { nivel: 'atencao', label: 'Atenção', css: 'status-atencao' };
+    return             { nivel: 'critico',  label: 'Crítico', css: 'status-critico' };
+  }
+
+  // ─── Atualizar UI ────────────────────────────────────────────────
+  function atualizarUI() {
+    const { tvoc, eco2 } = estado;
+    const cT = classificarTVOC(tvoc);
+    const cE = classificarECO2(eco2);
+
+    document.getElementById('val-tvoc').textContent = tvoc;
+    document.getElementById('val-eco2').textContent = eco2;
+
+    // Box borders
+    document.getElementById('box-tvoc').className = `sensor-box ${cT.nivel}`;
+    document.getElementById('box-eco2').className = `sensor-box ${cE.nivel}`;
+
+    // Status badges
+    const stT = document.getElementById('st-tvoc');
+    stT.textContent = cT.label;
+    stT.className = `sensor-status ${cT.css}`;
+    const stE = document.getElementById('st-eco2');
+    stE.textContent = cE.label;
+    stE.className = `sensor-status ${cE.css}`;
+
+    // Barras
+    const pctT = Math.min(100, Math.round((tvoc / 600) * 100));
+    const pctE = Math.min(100, Math.round(((eco2 - 400) / 1600) * 100));
+    const corT = cT.nivel === 'ok' ? '#40916C' : cT.nivel === 'atencao' ? '#F59E0B' : '#E63946';
+    const corE = cE.nivel === 'ok' ? '#40916C' : cE.nivel === 'atencao' ? '#F59E0B' : '#E63946';
+    document.getElementById('fill-tvoc').style.width = pctT + '%';
+    document.getElementById('fill-tvoc').style.background = corT;
+    document.getElementById('fill-eco2').style.width = pctE + '%';
+    document.getElementById('fill-eco2').style.background = corE;
+    document.getElementById('pct-tvoc').textContent = pctT + '%';
+    document.getElementById('pct-eco2').textContent = pctE + '%';
+
+    // Alerta
+    const critico = cT.nivel === 'critico' || cE.nivel === 'critico';
+    const atencao = cT.nivel === 'atencao' || cE.nivel === 'atencao';
+    document.getElementById('alerta-box').className = critico ? 'show' : '';
+    document.getElementById('alerta-ok').style.display  = critico ? 'none' : 'block';
+    if (atencao && !critico) {
+      document.getElementById('alerta-msg').textContent = 'Níveis em atenção. Monitore o ambiente.';
+    } else {
+      document.getElementById('alerta-msg').textContent = 'Nível crítico detectado. Ventile o ambiente imediatamente.';
+    }
+
+    // Badge topo
+    const badge = document.getElementById('badge-status');
+    if (critico)      { badge.textContent = '● CRÍTICO';  badge.style.background = '#B91C1C'; }
+    else if (atencao) { badge.textContent = '● ATENÇÃO';  badge.style.background = '#B45309'; }
+    else              { badge.textContent = '● NORMAL';   badge.style.background = '#40916C'; }
+
+    // Timestamp + contador
+    estado.totalLeituras++;
+    document.getElementById('ultima-atualizacao').textContent = new Date().toLocaleTimeString('pt-BR');
+    document.getElementById('total-leituras').textContent = estado.totalLeituras;
+
+    // Log
+    adicionarLog(tvoc, eco2, cT.nivel);
+  }
+
+  // ─── Log ─────────────────────────────────────────────────────────
+  function adicionarLog(tvoc, eco2, nivel) {
+    const el = document.getElementById('historico');
+    const hora = new Date().toLocaleTimeString('pt-BR');
+    const css = nivel === 'ok' ? 'log-ok' : nivel === 'atencao' ? 'log-atencao' : 'log-critico';
+    const entrada = document.createElement('div');
+    entrada.className = `log-entry ${css}`;
+    entrada.textContent = `[${hora}] TVOC: ${tvoc} ppb | eCO2: ${eco2} ppm | Status: ${nivel.toUpperCase()}`;
+    el.insertBefore(entrada, el.firstChild);
+  }
+
+  function limparHistorico() {
+    document.getElementById('historico').innerHTML = '<span class="teste-info">Histórico limpo.</span>';
+  }
+
+  // ─── Simulações ──────────────────────────────────────────────────
+  function simularNormal() {
+    estado.tvoc = Math.floor(Math.random() * 150);        // 0–150 ppb
+    estado.eco2 = Math.floor(Math.random() * 300) + 400;  // 400–700 ppm
+    atualizarUI();
+  }
+  function simularAtencao() {
+    estado.tvoc = Math.floor(Math.random() * 200) + 250;  // 250–450 ppb
+    estado.eco2 = Math.floor(Math.random() * 300) + 1000; // 1000–1300 ppm
+    atualizarUI();
+  }
+  function simularCritico() {
+    estado.tvoc = Math.floor(Math.random() * 300) + 700;  // 700–1000 ppb
+    estado.eco2 = Math.floor(Math.random() * 500) + 1600; // 1600–2100 ppm
+    atualizarUI();
+  }
+
+  // ─── Testes Automatizados ────────────────────────────────────────
+  function log(msg, tipo = 'info') {
+    const el = document.getElementById('testes-output');
+    const d = document.createElement('div');
+    d.className = `teste-linha teste-${tipo}`;
+    d.textContent = msg;
+    el.appendChild(d);
+    el.scrollTop = el.scrollHeight;
+  }
+
+  function assert(descricao, condicao) {
+    if (condicao) {
+      log(`  ✔ PASS — ${descricao}`, 'pass');
+      return true;
+    } else {
+      log(`  ✘ FAIL — ${descricao}`, 'fail');
+      return false;
+    }
+  }
+
+  function executarTestes() {
+    const out = document.getElementById('testes-output');
+    out.innerHTML = '';
+    let pass = 0, fail = 0;
+
+    function run(descricao, cond) {
+      const ok = assert(descricao, cond);
+      ok ? pass++ : fail++;
+    }
+
+    // ── Bloco 1: Classificação de TVOC ──
+    log('[ TESTE 1 ] Classificação de TVOC', 'titulo');
+    run('TVOC = 0 deve ser classificado como "ok"',      classificarTVOC(0).nivel === 'ok');
+    run('TVOC = 220 deve ser classificado como "ok"',    classificarTVOC(220).nivel === 'ok');
+    run('TVOC = 221 deve ser "atencao"',                 classificarTVOC(221).nivel === 'atencao');
+    run('TVOC = 660 deve ser "atencao"',                 classificarTVOC(660).nivel === 'atencao');
+    run('TVOC = 661 deve ser "critico"',                 classificarTVOC(661).nivel === 'critico');
+    run('TVOC = 1000 deve ser "critico"',                classificarTVOC(1000).nivel === 'critico');
+
+    // ── Bloco 2: Classificação de eCO2 ──
+    log('[ TESTE 2 ] Classificação de eCO2', 'titulo');
+    run('eCO2 = 400 deve ser "ok"',                      classificarECO2(400).nivel === 'ok');
+    run('eCO2 = 1000 deve ser "ok"',                     classificarECO2(1000).nivel === 'ok');
+    run('eCO2 = 1001 deve ser "atencao"',                classificarECO2(1001).nivel === 'atencao');
+    run('eCO2 = 1500 deve ser "atencao"',                classificarECO2(1500).nivel === 'atencao');
+    run('eCO2 = 1501 deve ser "critico"',                classificarECO2(1501).nivel === 'critico');
+
+    // ── Bloco 3: Limites de barra de progresso ──
+    log('[ TESTE 3 ] Barra de progresso (limites)', 'titulo');
+    const pct600  = Math.min(100, Math.round((600 / 600) * 100));
+    const pct1200 = Math.min(100, Math.round((1200 / 600) * 100));
+    run('TVOC = 600 deve resultar em 100%',  pct600  === 100);
+    run('TVOC = 1200 não pode exceder 100%', pct1200 === 100);
+    run('TVOC = 0 deve resultar em 0%',      Math.round((0 / 600) * 100) === 0);
+
+    // ── Bloco 4: Presença de elementos na UI ──
+    log('[ TESTE 4 ] Integridade da interface (DOM)', 'titulo');
+    run('Elemento #val-tvoc existe no DOM',        !!document.getElementById('val-tvoc'));
+    run('Elemento #val-eco2 existe no DOM',        !!document.getElementById('val-eco2'));
+    run('Elemento #historico existe no DOM',       !!document.getElementById('historico'));
+    run('Elemento #alerta-box existe no DOM',      !!document.getElementById('alerta-box'));
+    run('Elemento #badge-status existe no DOM',    !!document.getElementById('badge-status'));
+
+    // ── Bloco 5: Simulação e estado ──
+    log('[ TESTE 5 ] Simulação de cenários', 'titulo');
+    simularNormal();
+    run('Modo normal: TVOC deve estar entre 0 e 149 ppb',   estado.tvoc >= 0 && estado.tvoc <= 150);
+    run('Modo normal: eCO2 deve estar entre 400 e 700 ppm', estado.eco2 >= 400 && estado.eco2 <= 700);
+
+    simularAtencao();
+    run('Modo atenção: TVOC deve ser >= 250 ppb',  estado.tvoc >= 250);
+    run('Modo atenção: eCO2 deve ser >= 1000 ppm', estado.eco2 >= 1000);
+
+    simularCritico();
+    run('Modo crítico: TVOC deve ser >= 700 ppb',  estado.tvoc >= 700);
+    run('Modo crítico: eCO2 deve ser >= 1600 ppm', estado.eco2 >= 1600);
+    run('Modo crítico: alerta deve estar visível',
+        document.getElementById('alerta-box').className === 'show');
+
+    // ── Resultado final ──
+    log('', 'info');
+    log(`━━━ RESULTADO FINAL: ${pass} passou | ${fail} falhou ━━━`,
+        fail === 0 ? 'pass' : 'fail');
+  }
+
+  // Inicializar com leitura normal
+  simularNormal();
+</script>
+</body>
+</html>
